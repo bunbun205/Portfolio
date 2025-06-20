@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SourceCode from "../components/Terms&Conditions/Source.code";
+import TermsOfReuse from '../components/Terms&Conditions/TermsOfReuse';
+import Attributions from "../components/Terms&Conditions/Attributions";
+---
+
+<BaseLayout>
+	<main class="max-w-4xl mx-auto px-4 py-8 text-light-text dark:text-dark-text">
+		<h1 class="text-4xl font-bold mb-6 text-center">Terms and Conditions</h1>
+		<div class="space-y-10">
+			<SourceCode client:load />
+			<TermsOfReuse client:load />
+			<Attributions client:load />
+		</div>
+	</main>
+</BaseLayout>
+

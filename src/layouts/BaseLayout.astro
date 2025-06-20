@@ -1,0 +1,23 @@
+---
+import '../styles/global.css';
+import ThemeSwitcher from '../components/Fixed/ThemeSwitcher';
+import NavBar from '../components/Fixed/Navbar'
+import Footer from '../components/Fixed/Footer'
+---
+
+<html lang="en" class="bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Portfolio</title>
+		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	</head>
+	<body class="min-h-screen flex flex-col font-montserrat transition-colors duration-500">
+		<NavBar client:only="react" />
+		<main class="flex-grow items-center justify-center py-20">
+			<slot />
+		</main>
+		<Footer client:only="react" />
+		<ThemeSwitcher client:only="react" />
+	</body>
+</html>

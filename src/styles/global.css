@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--color-dark-background: #0d0d0d;
+	--color-dark-primary: #730255;
+	--color-dark-secondary: #D923BA;
+	--color-dark-accent: #5E17A6;
+	--color-dark-deep: #411073;
+	--color-dark-text: #fefefe;
+
+	--color-light-background: #FAFAFA;
+	--color-light-primary: #FFD5F4;
+	--color-light-secondary: #670544;
+	--color-light-accent: #A69EFF;
+	--color-light-deep: #BFA6F5;
+	--color-light-text: #101010;
+
+	--font-montserrat: "Montserrat", sans-serrif;
+}
+
