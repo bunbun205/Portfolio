@@ -1,8 +1,10 @@
 ---
 import '../styles/global.css';
-import ThemeSwitcher from '../components/Fixed/ThemeSwitcher';
-import NavBar from '../components/Fixed/Navbar'
-import Footer from '../components/Fixed/Footer'
+import ThemeSwitcher from '../components/Common/ThemeSwitcher';
+import NavBar from '../components/Common/Navbar'
+import SiteLegend from '../components/Common/SiteLegend';
+import Footer from '../components/Common/Footer'
+import { ViewTransitions } from 'astro:transitions';
 ---
 
 <html lang="en" class="bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text">
@@ -13,7 +15,9 @@ import Footer from '../components/Fixed/Footer'
 		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	</head>
 	<body class="min-h-screen flex flex-col font-montserrat transition-colors duration-500">
+		<ViewTransitions />
 		<NavBar client:only="react" />
+		<SiteLegend client:only="react" />
 		<main class="flex-grow items-center justify-center py-20">
 			<slot />
 		</main>

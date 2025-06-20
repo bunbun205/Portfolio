@@ -1,8 +1,16 @@
 import { FaLinkedin, FaInstagram, FaYoutube, FaGithub } from 'react-icons/fa';
 import { SiArtstation } from 'react-icons/si';
+import { motion } from 'framer-motion';
 
 export default function SocialLinks() {
   return (
+    <motion.section 
+    initial={{ y: -100, opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 0.9, ease: "easeOut" }}
+    className="py-10"
+    >
+      <h2 className="text-2xl mb-2">Hit me up!</h2>
     <div className="flex gap-4 text-2xl">
       <a
         href="https://www.linkedin.com/in/mayank-yadav-7873a1120/"
@@ -40,5 +48,6 @@ export default function SocialLinks() {
         <FaGithub className='hover:scale-110 transition-transform' />
       </a>
     </div>
+    </motion.section>
   );
 }

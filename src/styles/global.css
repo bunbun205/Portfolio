@@ -3,6 +3,12 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer base {
+	html {
+		scrollbar-gutter: stable;
+	}
+}
+
 @theme {
 	--color-dark-background: #0d0d0d;
 	--color-dark-primary: #730255;

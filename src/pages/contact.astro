@@ -8,18 +8,10 @@ import CommissionsForm from "../components/ContactPage/Commissions"
 <BaseLayout>
   <main class="max-w-3xl mx-auto px-4 py-10 space-y-10 text-light-text dark:text-dark-text">
     <h1 class="text-4xl font-bold">Contact Me</h1>
-    <section class="py-10">
-      <h2 class="text-2xl mb-2">Hit me up!</h2>
       <SocialLinks client:load />
-    </section>
-    <section class="py-10">
-      <h2 class="text-2xl mb-2">Order a Commission</h2>
       <CommissionsForm client:load />
-    </section>
-    <section class="py-10">
-      <h2 class="text-2xl mb-2">Have a message? Let me know!</h2>
       <ContactForm client:load />
-    </section>
+    </>
   </main>
 </BaseLayout>
 
