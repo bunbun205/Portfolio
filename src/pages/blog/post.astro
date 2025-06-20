@@ -2,11 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import PostMeta from '../../components/Blog/FirstPost/PostMeta.tsx'
 import PostContent from '../../components/Blog/FirstPost/PostContent.tsx'
+import CommentSection from '../../components/Blog/Comments/CommentSection'
 ---
 
 <BaseLayout>
   <article class="prose dark:prose-invert prose-lg max-w-3xl mx-auto px-4 py-24">
     <PostMeta />
     <PostContent />
+  <CommentSection showAll={true} />
   </article>
 </BaseLayout>
