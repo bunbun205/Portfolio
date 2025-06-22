@@ -1,11 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StarrySphereBackground from "../components/HomePage/StarBG";
+import Legend3D from "../components/HomePage/Legend";
 ---
 
 <BaseLayout>
-	<main class="relative py-50 min-h-full flex flex-col items-center justify-center text-light-text dark:text-dark-text px-4">
+	<main class="py-24 my-auto max-w-4xl mx-auto flex flex-col items-center justify-center text-light-text dark:text-dark-text px-4 overflow-visible">
 		<StarrySphereBackground client:only="react" />
+		<Legend3D client:only="'react" />
 		<div class="z-10 text-center">
 			<h1 class="text-5xl font-bold mb-4">Welcome to My Portfolio</h1>
 			<p class="text-lg">Game Designer • 3D Generalist • Developer</p>

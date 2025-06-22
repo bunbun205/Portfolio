@@ -2,7 +2,7 @@ import BlogCard from './BlogCard';
 
 const BlogLayout = () => {
   return (
-    <section className="max-w-3xl mx-auto px-4 py-12">
+    <section className="max-w-4xl mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold mb-8">Latest Posts</h1>
       <div className="space-y-6">
         <BlogCard
