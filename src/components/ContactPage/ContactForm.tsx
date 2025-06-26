@@ -5,7 +5,7 @@ export default function ContactForm() {
     <motion.section
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.9, delay: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
       className="py-10"
     >
       <h2 className="text-2xl mb-2">Have a message? Let me know!</h2>
@@ -20,10 +20,9 @@ export default function ContactForm() {
           placeholder="Your Email"
           className="w-full p-2 rounded bg-dark-background text-dark-text dark:bg-light-background dark:text-light-text"
         />
-        <input
-          type="text"
+        <textarea
           placeholder="Your Message"
-          className="w-full h-25 p-2 rounded bg-dark-background text-dark-text dark:bg-light-background dark:text-light-text"
+          className="w-full h-40 p-2 rounded bg-dark-background text-dark-text dark:bg-light-background dark:text-light-text"
         />
 
         <button

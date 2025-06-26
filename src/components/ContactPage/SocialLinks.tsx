@@ -20,21 +20,21 @@ export default function SocialLinks() {
         <FaLinkedin className='hover:scale-110 transition-transform' />
       </a>
       <a
-        href="https://www.instagram.com/may_ank.69/"
+        href="https://www.instagram.com/may_ank.69"
         target="_blank"
         rel="noopener noreferrer"
       >
         <FaInstagram className='hover:scale-110 transition-transform' />
       </a>
       <a
-        href="https://www.youtube.com/@zenthor3D/"
+        href="https://www.youtube.com/@zenthor3D"
         target="_blank"
         rel="noopener noreferrer"
       >
         <FaYoutube className='hover:scale-110 transition-transform' />
       </a>
       <a
-        href="https://www.artstation.com/zenthor3d"
+        href="https://www.artstation.com/zenthor3D"
         target="_blank"
         rel="noopener noreferrer"
       >

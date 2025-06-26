@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 
 const Hobbies = () => (
@@ -11,10 +9,10 @@ const Hobbies = () => (
   >
     <h2 className="text-2xl font-bold mb-4">Hobbies</h2>
     <ul className="list-disc list-inside space-y-1">
-      <li>Sketching & Digital Painting</li>
-      <li>Playing Indie Games</li>
-      <li>Exploring Game Engines</li>
-      <li>Photography</li>
+      <li>Lorem ipsum hobby one</li>
+      <li>Lorem ipsum hobby two</li>
+      <li>Lorem ipsum hobby three</li>
+      <li>Lorem ipsum hobby four</li>
     </ul>
   </motion.section>
 );

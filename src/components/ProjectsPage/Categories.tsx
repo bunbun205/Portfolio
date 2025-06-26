@@ -1,17 +1,21 @@
-'use client';
-import { useEffect, useRef, useState } from 'react';
-import { mockProjects } from '../../utils/mockProjects';
-import { ChevronLeft, ChevronRight } from 'react-feather';
+import { useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "react-feather";
+import { motion } from "framer-motion";
+import { mockProjects } from "../../utils/mockProjects";
+import type { Project } from "../../utils/interfaces";
+import ProjectPopup from "./ProjectPopup";
 
 interface Props {
   category: string;
   slug: string;
+  delay: number;
 }
 
-export default function CategorySection({ category, slug }: Props) {
+export default function CategorySection({ category, slug, delay }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const checkScroll = () => {
     const el = scrollRef.current;
@@ -22,7 +26,7 @@ export default function CategorySection({ category, slug }: Props) {
   };
 
   const scrollByAmount = (amount: number) => {
-    scrollRef.current?.scrollBy({ left: amount, behavior: 'smooth' });
+    scrollRef.current?.scrollBy({ left: amount, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -30,25 +34,33 @@ export default function CategorySection({ category, slug }: Props) {
     const el = scrollRef.current;
     if (!el) return;
 
-    el.addEventListener('scroll', checkScroll);
-    window.addEventListener('resize', checkScroll);
+    el.addEventListener("scroll", checkScroll);
+    window.addEventListener("resize", checkScroll);
 
     return () => {
-      el.removeEventListener('scroll', checkScroll);
-      window.removeEventListener('resize', checkScroll);
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
     };
   }, []);
 
-  const projects = mockProjects.slice(0, 5);
+  const projects: Project[] = mockProjects
+    .filter((p) => p.category === category)
+    .slice(0, 5);
 
   return (
-    <section className="p-6 relative w-full">
+    <motion.section
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.9, delay: delay, ease: "easeOut" }}
+      className="p-6 relative w-full"
+    >
       <div className="flex justify-between items-center mb-3 px-1">
         <h2 className="text-xl font-semibold">{category}</h2>
-        <a href={`/projects/${slug}`} className="text-blue-500 hover:underline">View All</a>
+        <a href={`/projects/${slug}`} className="text-blue-500 hover:underline">
+          View All
+        </a>
       </div>
 
-      {/* Arrow Buttons */}
       {canScrollLeft && (
         <button
           onClick={() => scrollByAmount(-260)}
@@ -72,11 +84,25 @@ export default function CategorySection({ category, slug }: Props) {
         className="flex gap-4 overflow-x-auto scroll-smooth pb-2 no-scrollbar pr-4"
       >
         {projects.map((p) => (
-          <a key={p.id} href={p.link} className="flex-none w-[260px] h-[180px] rounded-lg overflow-hidden shadow-lg">
-            <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
-          </a>
+          <div
+            key={p.id}
+            onClick={() => setSelectedProject(p)}
+            className="flex-none w-[260px] h-[180px] rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700"
+          >
+            <img
+              src={p.thumbnail_url}
+              alt={p.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
         ))}
       </div>
-    </section>
+      {selectedProject && (
+        <ProjectPopup
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
+    </motion.section>
   );
 }

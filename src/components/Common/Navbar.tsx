@@ -1,4 +1,3 @@
-'use client';
 import { useState } from 'react';
 
 const NavBar = () => {
@@ -6,10 +5,18 @@ const NavBar = () => {
 	const toggleMenu = () => setIsOpen((prev) => !prev);
 
 	return (
-		<nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-light-accent to-light-primary dark:from-dark-accent dark:to-dark-primary text-light-text dark:text-dark-text shadow-md shadow-gray-500 dark:shadow-black"
-		>
+		<nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-t from-light-accent to-light-primary dark:from-dark-accent dark:to-dark-primary text-light-text dark:text-dark-text shadow-md shadow-gray-500 dark:shadow-black">
 			<div className="relative container mx-auto flex justify-between items-center px-4 py-6">
-				<div className="text-4xl font-bold">Mayank Yadav</div>
+				<div className="text-3xl md:text-4xl lg:text-4xl font-bold flex items-center space-x-2">
+					<img
+						src="/mock-thumb.png"
+						alt="Logo"
+						width={40}
+						height={40}
+						className="h-[1em] w-auto"
+					/>
+					<a href="/">Mayank Yadav</a>
+				</div>
 
 				{/* Hamburger Button */}
 				<button
@@ -22,11 +29,11 @@ const NavBar = () => {
 
 				{/* Desktop Navigation */}
 				<div className="hidden lg:flex space-x-6 text-lg">
-					<a href="/" className="hover:text-blue-600">Home</a>
-					<a href="/about" className="hover:text-blue-600">About</a>
-					<a href="/projects" className="hover:text-blue-600">Projects</a>
-					<a href="/blog" className="hover:text-blue-600">Blog</a>
-					<a href="/contact" className="hover:text-blue-600">Contact Me</a>
+					<a href="/" className="hover:underline">Home</a>
+					<a href="/about" className="hover:underline">About</a>
+					<a href="/projects" className="hover:underline">Projects</a>
+					<a href="/blog" className="hover:underline">Blog</a>
+					<a href="/contact" className="hover:underline">Contact Me</a>
 				</div>
 
 				{/* Mobile Dropdown */}
@@ -35,11 +42,11 @@ const NavBar = () => {
 					${isOpen ? 'max-h-[500px]' : 'max-h-0'}`}
 				>
 					<div className="flex flex-col px-4 py-4 space-y-4 text-lg overflow-y-auto max-h-[75vh]">
-						<a href="/" onClick={toggleMenu} className="hover:text-blue-600">Home</a>
-						<a href="/about" onClick={toggleMenu} className="hover:text-blue-600">About</a>
-						<a href="/projects" onClick={toggleMenu} className="hover:text-blue-600">Projects</a>
-						<a href="/blog" onClick={toggleMenu} className="hover:text-blue-600">Blog</a>
-						<a href="/contact" onClick={toggleMenu} className="hover:text-blue-600">Contact Me</a>
+						<a href="/" onClick={toggleMenu} className="hover:underline">Home</a>
+						<a href="/about" onClick={toggleMenu} className="hover:underline">About</a>
+						<a href="/projects" onClick={toggleMenu} className="hover:underline">Projects</a>
+						<a href="/blog" onClick={toggleMenu} className="hhover:underline">Blog</a>
+						<a href="/contact" onClick={toggleMenu} className="hover:underline">Contact Me</a>
 					</div>
 				</div>
 			</div>

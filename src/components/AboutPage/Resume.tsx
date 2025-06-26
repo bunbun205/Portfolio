@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -17,7 +15,7 @@ const ResumeCard = () => {
         <h2 className="text-2xl font-bold mb-4">My Resume</h2>
         <div
           className="relative w-full max-w-4xl mx-auto aspect-[1101/584] bg-cover bg-center border cursor-pointer shadow-lg hover:scale-105 transition"
-          style={{ backgroundImage: `url('/resume-preview.png')` }}
+          style={{ backgroundImage: `url('/mock-thumb.png')` }}
           onClick={() => setOpen(true)}
         >
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white font-semibold">
@@ -36,7 +34,7 @@ const ResumeCard = () => {
               &times;
             </button>
             <iframe
-              src="/resume_updated.pdf"
+              src="/mock_resume.pdf"
               className="w-full h-full border-none rounded"
             ></iframe>
           </div>

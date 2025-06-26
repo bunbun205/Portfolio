@@ -1,8 +1,6 @@
-"use client";
-
 import { motion } from "framer-motion";
 
-const IntroSection = () => (
+const Introduction = () => (
   <motion.section
     initial={{ y: -100, opacity: 0 }}
     animate={{ y: 0, opacity: 1 }}
@@ -11,9 +9,8 @@ const IntroSection = () => (
   >
     <h2 className="text-3xl font-bold mb-2">About Me</h2>
     <p className="text-lg">
-      I'm a 3D generalist and game designer/developer passionate about creating
-      interactive experiences and digital art.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget commodo justo. Vivamus non blandit erat. Integer eu mi nec nulla laoreet bibendum.
     </p>
   </motion.section>
 );
-export default IntroSection;
+export default Introduction;

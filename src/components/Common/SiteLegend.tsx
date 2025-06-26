@@ -1,4 +1,3 @@
-'use client';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -23,7 +22,7 @@ const SiteLegend = () => {
 
   return (
     <motion.div
-      className="bg-light-background dark:bg-dark-background mt-24 text-light-secondary dark:text-dark-secondary px-6 py-3 border-b border-gray-300 dark:border-gray-700 shadow-sm z-40"
+      className="bg-light-background dark:bg-dark-background mt-24 text-light-secondary dark:text-dark-secondary px-6 py-3 border-b border-gray-300 dark:border-gray-700 shadow-l z-40"
       initial={{ y: -10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4 }}

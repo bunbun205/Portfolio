@@ -8,11 +8,11 @@ import CategorySection from "../components/ProjectsPage/Categories";
   <main class="px-4 py-10 text-light-text dark:text-dark-text max-w-4xl mx-auto space-y-16">
     <Carousel client:only="react" />
 
-    <CategorySection client:only="react" category="3D Assets" slug="3dassets" />
-    <CategorySection client:only="react" category="Characters" slug="characters" />
-    <CategorySection client:only="react" category="Environments" slug="environments" />
-    <CategorySection client:only="react" category="Concept Art" slug="conceptart" />
-    <CategorySection client:only="react" category="Game Design" slug="gamedesign" />
-    <CategorySection client:only="react" category="Game Development" slug="gamedev" />
+    <CategorySection client:only="react" category="3D Assets" slug="3dassets" delay={0.3} client:only="react" />
+    <CategorySection client:only="react" category="Characters" slug="characters" delay={0.6} client:only="react" />
+    <CategorySection client:only="react" category="Environments" slug="environments" delay={0.9} client:only="react" />
+    <CategorySection client:only="react" category="Concept Art" slug="conceptart" delay={1.2} client:only="react" />
+    <CategorySection client:only="react" category="Game Design" slug="gamedesign" delay={1.5} client:only="react" />
+    <CategorySection client:only="react" category="Game Development" slug="gamedev" delay={1.8} client:only="react" />
   </main>
 </BaseLayout>

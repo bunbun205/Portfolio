@@ -2,15 +2,15 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactForm from "../components/ContactPage/ContactForm";
 import SocialLinks from "../components/ContactPage/SocialLinks"
-import CommissionsForm from "../components/ContactPage/Commissions"
+import SupportSection from "../components/ContactPage/Support";
 ---
 
 <BaseLayout>
   <main class="max-w-4xl mx-auto px-4 py-10 space-y-10 text-light-text dark:text-dark-text">
     <h1 class="text-4xl font-bold">Contact Me</h1>
       <SocialLinks client:load />
-      <CommissionsForm client:load />
       <ContactForm client:load />
+      <SupportSection client:load />
     </>
   </main>
 </BaseLayout>

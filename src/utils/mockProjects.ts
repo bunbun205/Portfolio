@@ -1,8 +1,66 @@
-export const mockProjects = [
-  { id: 1, title: 'Asset Pack A', image: '/mock-thumb.png', link: '/projects/3dassets/asset-pack-a' },
-  { id: 2, title: 'Sci-Fi Character', image: '/mock-thumb.png', link: '/projects/characters/scifi-char' },
-  { id: 3, title: 'Futuristic City', image: '/mock-thumb.png', link: '/projects/environments/future-city' },
-  { id: 4, title: 'Alien Concept', image: '/mock-thumb.png', link: '/projects/conceptart/alien' },
-  { id: 5, title: 'Game Mechanics Doc', image: '/mock-thumb.png', link: '/projects/gamedesign/mechanics-doc' },
-  { id: 6, title: 'Mini Game Dev', image: '/mock-thumb.png', link: '/projects/gamedev/mini-game' },
+// src/utils/mockProjects.ts
+
+import type { Project } from './interfaces';
+
+export const mockProjects: Project[] = [
+  {
+    id: 'proj-3dassets',
+    title: 'Sample 3D Asset',
+    assets: ['/mock-thumb.png'],
+    thumbnail_url: '/mock-thumb.png',
+    category: '3D Assets',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis.',
+    likes: 0,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 'proj-characters',
+    title: 'Character Concept',
+    assets: ['/mock-thumb.png'],
+    thumbnail_url: '/mock-thumb.png',
+    category: 'Characters',
+    description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada.',
+    likes: 0,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 'proj-environments',
+    title: 'Environment Design',
+    assets: ['/mock-thumb.png'],
+    thumbnail_url: '/mock-thumb.png',
+    category: 'Environments',
+    description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    likes: 0,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 'proj-conceptart',
+    title: 'Concept Art Scene',
+    assets: ['/mock-thumb.png'],
+    thumbnail_url: '/mock-thumb.png',
+    category: 'Concept Art',
+    description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+    likes: 0,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 'proj-gamedesign',
+    title: 'Game Design Prototype',
+    assets: ['/mock-thumb.png'],
+    thumbnail_url: '/mock-thumb.png',
+    category: 'Game Design',
+    description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
+    likes: 0,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 'proj-gamedev',
+    title: 'Game Development Demo',
+    assets: ['/mock-thumb.png'],
+    thumbnail_url: '/mock-thumb.png',
+    category: 'Game Development',
+    description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.',
+    likes: 0,
+    created_at: new Date().toISOString(),
+  },
 ];

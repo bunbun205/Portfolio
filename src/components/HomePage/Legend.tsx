@@ -1,5 +1,3 @@
-'use client';
-
 import { useRef, useEffect, useState, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -10,6 +8,7 @@ function Platform() {
 	const rotationRef = useRef(0);
 	const targetRotation = useRef(0);
 
+	// 🖱️ Scroll Rotation (Desktop)
 	useEffect(() => {
 		const handleScroll = (e: WheelEvent) => {
 			targetRotation.current -= e.deltaY * 0.001;
@@ -18,6 +17,32 @@ function Platform() {
 		return () => window.removeEventListener('wheel', handleScroll);
 	}, []);
 
+	// 📱 Touch Rotation (Mobile)
+	useEffect(() => {
+		let touchStartX: number | null = null;
+
+		const handleTouchStart = (e: TouchEvent) => {
+			touchStartX = e.touches[0].clientX;
+		};
+
+		const handleTouchMove = (e: TouchEvent) => {
+			if (touchStartX === null) return;
+			const touchX = e.touches[0].clientX;
+			const deltaX = touchX - touchStartX;
+			targetRotation.current += deltaX * 0.005; // Adjust for sensitivity
+			touchStartX = touchX;
+		};
+
+		window.addEventListener('touchstart', handleTouchStart);
+		window.addEventListener('touchmove', handleTouchMove);
+
+		return () => {
+			window.removeEventListener('touchstart', handleTouchStart);
+			window.removeEventListener('touchmove', handleTouchMove);
+		};
+	}, []);
+
+	// Animation Frame
 	useFrame(() => {
 		rotationRef.current += (targetRotation.current - rotationRef.current) * 0.1;
 		if (platformRef.current) {
@@ -25,6 +50,7 @@ function Platform() {
 		}
 	});
 
+	// Positions
 	const radius = 6;
 	const checkpointNames = ['Projects', 'About', 'Blog', 'Contact'];
 	const checkpointPositions: [number, number, number][] = useMemo(() => {
@@ -68,6 +94,7 @@ function Platform() {
 		</group>
 	);
 }
+
 
 export default function Legend3D() {
 	const [cameraConfig, setCameraConfig] = useState({

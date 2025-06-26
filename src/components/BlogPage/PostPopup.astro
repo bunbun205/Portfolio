@@ -1,0 +1,14 @@
+---
+import CommentSection from './Comments/CommentSection.tsx';
+
+const { mdxComponent: Component, postId, comments } = Astro.props;
+---
+
+{Component ? (
+  <Component />
+) : (
+  <p class="text-red-500 text-center font-medium mb-4">Failed to load post content.</p>
+)}
+
+<!-- React Comment Section Below -->
+<CommentSection client:only="react" postId={postId} initialComments={comments} />
