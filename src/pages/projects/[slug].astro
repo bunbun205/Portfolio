@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CategoryLayout from "../../components/ProjectsPage/CategoryLayout";
+import { fetchProjects } from "../../utils/fetchProjects";
+
+// Generate slugs for each category dynamically
+export async function getStaticPaths() {
+  // Fetch projects INSIDE this function
+  const projects = await fetchProjects();
+
+  // Define your known categories
+  const categories = [
+    "3D Assets",
+    "Characters",
+    "Environments",
+    "Concept Art",
+    "Game Design",
+    "Game Development"
+  ];
+
+  return categories.map((category) => {
+    return {
+      params: {
+        slug: category.toLowerCase().replace(/\s+/g, "")
+      },
+      props: {
+        category,
+        projects
+      }
+    };
+  });
+}
+---
+
+<BaseLayout>
+  <main class="px-4 py-10 text-light-text dark:text-dark-text max-w-4xl mx-auto space-y-16">
+    <CategoryLayout
+      client:only="react"
+      slug={Astro.params.slug}
+      projects={Astro.props.projects}
+    />
+  </main>
+</BaseLayout>

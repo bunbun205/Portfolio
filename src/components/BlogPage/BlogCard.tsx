@@ -13,10 +13,40 @@ const BlogCard = ({ post, children }: Props) => {
   const [likes, setLikes] = useState(post.likes || 0);
   const [liked, setLiked] = useState(false);
   const [open, setOpen] = useState(false);
+  const [loadingLike, setLoadingLike] = useState(false);
 
-  const toggleLike = () => {
-    setLiked((prev) => !prev);
-    setLikes((prev) => prev + (liked ? -1 : 1));
+  const API_BASE = "https://portfolio-backend.mayank69123-5d3.workers.dev";
+  const API_KEY =
+    "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782a";
+
+  const toggleLike = async () => {
+    if (loadingLike) return;
+
+    const newLiked = !liked;
+    const newLikes = likes + (newLiked ? 1 : -1);
+
+    setLiked(newLiked);
+    setLikes(newLikes);
+    setLoadingLike(true);
+
+    try {
+      const res = await fetch(`${API_BASE}/rest/posts/${post.id}/likes`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API_KEY}`,
+        },
+        body: JSON.stringify({ likes: newLikes }),
+      });
+
+      if (!res.ok) {
+        console.error("Failed to update likes in DB:", res.statusText);
+      }
+    } catch (err) {
+      console.error("Error updating likes:", err);
+    } finally {
+      setLoadingLike(false);
+    }
   };
 
   return (
@@ -24,8 +54,9 @@ const BlogCard = ({ post, children }: Props) => {
       <div className="relative border border-gray-700 my-7 dark:border-gray-300 rounded-xl p-4 hover:shadow-md transition bg-light-background dark:bg-dark-background">
         <button
           onClick={toggleLike}
-          className="absolute right-4 top-4 text-xl flex items-center gap-1"
+          className="absolute right-4 top-4 text-xl flex items-center gap-1 disabled:opacity-50"
           aria-label="Toggle Like"
+          disabled={loadingLike}
         >
           <FaHeart
             className={`${liked ? "text-red-500" : "text-gray-400"} transition`}
@@ -50,7 +81,7 @@ const BlogCard = ({ post, children }: Props) => {
       </div>
 
       {open && (
-        <div className="fixed inset-0 bg-black/70 z-[1000] flex justify-center items-center">
+        <div className="fixed inset-0 bg-black/70 z-[1000] transition-colors flex justify-center items-center">
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

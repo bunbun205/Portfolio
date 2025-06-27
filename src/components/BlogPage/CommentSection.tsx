@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { FaHeart, FaFlag } from 'react-icons/fa';
-import type { Comment } from '../../../utils/interfaces';
-import { postComment, updateComment } from '../../../utils/postComments';
+import type { Comment } from '../../utils/interfaces';
+import { postComment, updateComment } from '../../utils/postComments';
 
 interface Props {
   postId?: string;

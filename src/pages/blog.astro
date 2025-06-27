@@ -4,47 +4,19 @@ import BlogCard from "../components/BlogPage/BlogCard.tsx";
 import PostPopup from "../components/BlogPage/PostPopup.astro";
 import { fetchPosts } from "../utils/fetchPosts.ts";
 import { fetchComments } from "../utils/fetchComments.ts";
-import { compile, run } from "@mdx-js/mdx";
-import * as runtime from "react/jsx-runtime";
 
-const WORKER_URL = "https://portfolio-backend.mayank69123-5d3.workers.dev";
-const API_KEY = "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782a";
 
 const posts = await fetchPosts();
 const comments = await fetchComments();
-
-const compiledComponents = await Promise.all(
-  posts.map(async (post) => {
-    try {
-      const response = await fetch(`${WORKER_URL}/preview/assets/${post.content}`, {
-        headers: { Authorization: `Bearer ${API_KEY}` },
-      });
-
-      if (!response.ok) throw new Error(`Failed to fetch MDX: ${response.statusText}`);
-
-      const mdxSource = await response.text();
-      const compiled = await compile(mdxSource, { outputFormat: "function-body" });
-      const module = await run(compiled, {
-        ...runtime,
-        baseUrl: import.meta.url,
-      });
-
-      return module.default;
-    } catch (err) {
-      console.error(`[blog.astro] Failed to compile MDX for post ${post.id}`, err);
-      return null;
-    }
-  })
-);
 ---
 
 <BaseLayout>
   <main class="max-w-4xl mx-auto px-4 py-10 space-y-10 text-light-text dark:text-dark-text">
     <h1 class="text-3xl font-bold mb-8">Latest Posts</h1>
 
-    {posts.map((post, i) => (
+    {posts.map(async (post, i) => (
       <BlogCard client:only="react" post={post}>
-        <PostPopup postId={post.id} mdxComponent={compiledComponents[i]} comments={comments.filter(c => c.post_id === post.id)} />
+        <PostPopup post={post} comments={comments.filter(c => c.post_id === post.id)} />
       </BlogCard>
     ))}
   </main>

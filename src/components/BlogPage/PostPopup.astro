@@ -1,14 +1,49 @@
 ---
-import CommentSection from './Comments/CommentSection.tsx';
+import CommentSection from "./CommentSection.tsx";
+import { compile, run } from "@mdx-js/mdx";
+import * as runtime from "react/jsx-runtime";
+import type { BlogPost } from "../../utils/interfaces";
 
-const { mdxComponent: Component, postId, comments } = Astro.props;
+const { post, comments } = Astro.props;
+
+const WORKER_URL = "https://portfolio-backend.mayank69123-5d3.workers.dev";
+const API_KEY =
+  "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782a";
+
+let Component = null;
+
+try {
+  const response = await fetch(`${WORKER_URL}/preview/assets/${post.content}`, {
+    headers: { Authorization: `Bearer ${API_KEY}` },
+  });
+
+  if (!response.ok)
+    throw new Error(`Failed to fetch MDX: ${response.statusText}`);
+
+  const mdxSource = await response.text();
+  const compiled = await compile(mdxSource, { outputFormat: "function-body" });
+  const module = await run(compiled, {
+    ...runtime,
+    baseUrl: import.meta.url,
+  });
+
+  Component = module.default;
+} catch (err) {
+  console.error(`[PostPopup] Failed to compile MDX for post ${post.id}`, err);
+}
 ---
 
-{Component ? (
-  <Component />
-) : (
-  <p class="text-red-500 text-center font-medium mb-4">Failed to load post content.</p>
-)}
-
-<!-- React Comment Section Below -->
-<CommentSection client:only="react" postId={postId} initialComments={comments} />
+{
+  Component ? (
+    <Component />
+  ) : (
+    <p class="text-red-500 text-center font-medium mb-4">
+      Failed to load post content.
+    </p>
+  )
+}
+<CommentSection
+  client:only="react"
+  postId={post.id}
+  initialComments={comments}
+/>

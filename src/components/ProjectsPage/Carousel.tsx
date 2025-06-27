@@ -1,25 +1,45 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { mockProjects } from "../../utils/mockProjects";
 import type { Project } from "../../utils/interfaces";
 import ProjectPopup from "./ProjectPopup";
 
-export default function Carousel() {
+const R2_URL = "https://pub-925169039ca2466a9fccafe6acd0d070.r2.dev";
+
+interface Props {
+  projects: Project[];
+}
+
+export default function Carousel({ projects }: Props) {
   const [current, setCurrent] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const next = () => setCurrent((prev) => (prev + 1) % mockProjects.length);
+  const filteredProjects = projects
+    .sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    )
+    .slice(0, 5);
+
+  const total = filteredProjects.length;
+
+  const next = () =>
+    setCurrent((prev) => (prev + 1) % total);
+
   const prev = () =>
-    setCurrent(
-      (prev) => (prev - 1 + mockProjects.length) % mockProjects.length
-    );
+    setCurrent((prev) => (prev - 1 + total) % total);
 
   useEffect(() => {
     const interval = setInterval(next, 5000);
     return () => clearInterval(interval);
-  }, [current]);
+  }, [total]);
 
-  const projects: Project[] = mockProjects;
+  if (total === 0) {
+    return (
+      <div className="text-center text-gray-500 py-8">
+        No projects to display.
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -29,7 +49,7 @@ export default function Carousel() {
       className="mb-4 relative w-full max-w-4xl mx-auto h-[400px] overflow-hidden rounded-3xl"
     >
       <AnimatePresence>
-        {projects.map((project, index) =>
+        {filteredProjects.map((project, index) =>
           index === current ? (
             <motion.div
               key={project.id}
@@ -38,10 +58,10 @@ export default function Carousel() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6 }}
-              className="absolute w-full h-full"
+              className="absolute w-full h-full cursor-pointer"
             >
               <img
-                src={project.thumbnail_url || project.assets?.[0]}
+                src={`${R2_URL}/${project.thumbnail_url}`}
                 alt={project.title}
                 className="w-full h-full object-cover"
               />
@@ -67,7 +87,7 @@ export default function Carousel() {
       </button>
 
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-        {projects.map((_, index) => (
+        {filteredProjects.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrent(index)}
@@ -77,6 +97,7 @@ export default function Carousel() {
           />
         ))}
       </div>
+
       {selectedProject && (
         <ProjectPopup
           project={selectedProject}
