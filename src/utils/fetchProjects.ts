@@ -1,5 +1,5 @@
 // fetchProjects.ts
-import type { Project } from './interfaces';
+import type { Project, ProjectAssets } from './interfaces';
 
 const API_BASE = "https://portfolio-backend.mayank69123-5d3.workers.dev";
 const API_KEY = "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782a";
@@ -30,7 +30,7 @@ export async function fetchProjects(): Promise<Project[]> {
 
     return data.results.map((p: any) => ({
       ...p,
-      assets: JSON.parse(p.assets), // convert JSON string to array
+      assets: JSON.parse(p.assets) as ProjectAssets,
     })) as Project[];
 
   } catch (err) {

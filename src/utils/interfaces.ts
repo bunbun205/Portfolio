@@ -1,12 +1,16 @@
 // src/utils/interfaces.ts
 
-import type { FunctionComponent } from "react";
+export interface ProjectAssets {
+  images?: string[];
+  videos?: string[];
+  models?: string[];
+  [bucket: string]: string[] | undefined; // in case you add more buckets later
+}
 
-// Project format expected by the frontend
 export interface Project {
   id: string;
   title: string;
-  assets: string[]; // List of media URLs
+  assets: ProjectAssets; // <-- updated
   thumbnail_url: string;
   category: string;
   description?: string;

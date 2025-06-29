@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { X, Heart, ChevronLeft, ChevronRight } from "react-feather";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Project } from "../../utils/interfaces";
+import VideoPlayer from "./Surfaces/VideoPlayer";
+import ModelViewer from "./Surfaces/ModelViewer";
 
 interface Props {
   project: Project;
@@ -17,6 +19,14 @@ export default function ProjectPopup({ project, onClose }: Props) {
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(project.likes);
   const [current, setCurrent] = useState(0);
+
+  const allAssets = useMemo(() => {
+    const assets: { type: "image" | "video" | "model"; filename: string }[] = [];
+    project.assets.images?.forEach((f) => assets.push({ type: "image", filename: f }));
+    project.assets.videos?.forEach((f) => assets.push({ type: "video", filename: f }));
+    project.assets.models?.forEach((f) => assets.push({ type: "model", filename: f }));
+    return assets;
+  }, [project.assets]);
 
   const toggleLike = async () => {
     const newLiked = !liked;
@@ -46,14 +56,14 @@ export default function ProjectPopup({ project, onClose }: Props) {
   };
 
   const nextSlide = () => {
-    setCurrent((prev) => (prev + 1) % project.assets.length);
+    setCurrent((prev) => (prev + 1) % allAssets.length);
   };
 
   const prevSlide = () => {
-    setCurrent(
-      (prev) => (prev - 1 + project.assets.length) % project.assets.length
-    );
+    setCurrent((prev) => (prev - 1 + allAssets.length) % allAssets.length);
   };
+
+  const currentAsset = allAssets[current];
 
   return (
     <motion.div
@@ -73,18 +83,31 @@ export default function ProjectPopup({ project, onClose }: Props) {
         {/* Left - Slideshow */}
         <div className="relative w-full md:w-2/3 h-2/5 md:h-full bg-black flex items-center justify-center">
           <AnimatePresence initial={false} mode="wait">
-            <motion.img
+            <motion.div
               key={current}
-              src={`${R2_URL}/` + project.assets[current]}
-              alt={`Asset ${current}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="w-full h-full object-contain absolute"
-            />
+              className="w-full h-full flex items-center justify-center"
+            >
+              {currentAsset?.type === "image" && (
+                <img
+                  src={`${R2_URL}/${currentAsset.filename}`}
+                  alt=""
+                  className="w-full h-full object-contain"
+                />
+              )}
+              {currentAsset?.type === "video" && (
+                <VideoPlayer filename={currentAsset.filename} />
+              )}
+              {currentAsset?.type === "model" && (
+                <ModelViewer filename={currentAsset.filename} />
+              )}
+            </motion.div>
           </AnimatePresence>
-          {project.assets.length > 1 && (
+
+          {allAssets.length > 1 && (
             <>
               <button
                 onClick={prevSlide}
@@ -101,7 +124,7 @@ export default function ProjectPopup({ project, onClose }: Props) {
             </>
           )}
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
-            {project.assets.map((_, i) => (
+            {allAssets.map((_, i) => (
               <div
                 key={i}
                 className={`w-2 h-2 rounded-full ${
@@ -119,7 +142,7 @@ export default function ProjectPopup({ project, onClose }: Props) {
           </h2>
           <p className="text-gray-700 dark:text-gray-300 text-sm">
             {project.description ||
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+              "No description provided for this project."}
           </p>
 
           <div className="mt-auto flex items-center justify-between">
