@@ -16,22 +16,17 @@ export default function ModelViewer({ filename }: ModelViewerProps) {
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
   const [showWireframe, setShowWireframe] = useState(false);
   const [showMatcap, setShowMatcap] = useState(false);
-  const [matcapIndex, setMatcapIndex] = useState(0);
+  const [selectedMatcapIndex, setSelectedMatcapIndex] = useState<number | null>(null);
+  const [matcapDialogOpen, setMatcapDialogOpen] = useState(false);
   const [flatShading, setFlatShading] = useState(false);
 
-  const matcapModules = import.meta.glob("/src/matcaps/*.png", {
-    eager: true,
-  });
-
-  console.log("matcapModules", matcapModules);
+  // Load matcaps dynamically
+  const matcapModules = import.meta.glob("/src/matcaps/*.png", { eager: true });
 
   const matcapPaths = Object.values(matcapModules).map(
     (mod) => (mod as any).default.src
   );
 
-  console.log("matcapPaths", matcapPaths);
-
-  // Load all 9 matcap textures once
   const matcapTextures = useLoader(THREE.TextureLoader, matcapPaths);
 
   useEffect(() => {
@@ -100,7 +95,11 @@ export default function ModelViewer({ filename }: ModelViewerProps) {
             url={blobUrl}
             showWireframe={showWireframe}
             showMatcap={showMatcap}
-            matcapTexture={matcapTextures[matcapIndex]}
+            matcapTexture={
+              selectedMatcapIndex !== null
+                ? matcapTextures[selectedMatcapIndex]
+                : undefined
+            }
             flatShading={flatShading}
           />
         </Suspense>
@@ -134,15 +133,41 @@ export default function ModelViewer({ filename }: ModelViewerProps) {
           />
           Matcap
         </label>
+
         {showMatcap && (
-          <button
-            className="px-2 py-1 bg-light-accent dark:bg-dark-accent rounded hover:bg-light-deep hover:dark:bg-dark-deep"
-            onClick={() =>
-              setMatcapIndex((prev) => (prev + 1) % matcapTextures.length)
-            }
-          >
-            Next Matcap
-          </button>
+          <div className="relative">
+            <button
+              className="px-2 py-1 bg-gray-700 rounded hover:bg-gray-900"
+              onClick={() => setMatcapDialogOpen((prev) => !prev)}
+            >
+              {selectedMatcapIndex !== null ? "Change Matcap" : "Choose Matcap"}
+            </button>
+
+            {matcapDialogOpen && (
+              <div className="absolute top-full mt-2 bg-light-background dark:bg-dark-background border border-gray-300 dark:border-gray-700 shadow-lg p-2 grid grid-cols-9 gap-2 z-50 w-2xl max-h-96 overflow-auto">
+                {matcapPaths.map((path, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setSelectedMatcapIndex(i);
+                      setMatcapDialogOpen(false);
+                    }}
+                    className={`focus:outline-none border ${
+                      selectedMatcapIndex === i
+                        ? "border-blue-500"
+                        : "border-gray-300 dark:border-gray-600"
+                    }`}
+                  >
+                    <img
+                      src={path}
+                      alt={`Matcap ${i}`}
+                      className="w-16 h-16 object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>
@@ -153,7 +178,7 @@ interface ModelProps {
   url: string;
   showWireframe: boolean;
   showMatcap: boolean;
-  matcapTexture: THREE.Texture;
+  matcapTexture?: THREE.Texture;
   flatShading: boolean;
 }
 
@@ -178,7 +203,7 @@ function Model({
 
       let baseMaterial: THREE.Material;
 
-      if (showMatcap) {
+      if (showMatcap && matcapTexture) {
         baseMaterial = new THREE.MeshMatcapMaterial({
           matcap: matcapTexture,
           flatShading: flatShading,
