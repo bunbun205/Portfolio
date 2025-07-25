@@ -29,7 +29,7 @@ export default function SupportSection() {
           icon={<Shield size={28} />}
           title="UPI Support"
           description="Click to open your UPI app with a pre-filled payment link. Works with most Indian apps like Google Pay, PhonePe, Paytm, etc."
-          link="upi://pay?pa=your_upi_id@bank&pn=Your%20Name"
+          link="upi://pay?pa=7696199197@jupiteraxis&pn=Mayank%20Yadav"
         />
 
         {/* PayPal */}
@@ -45,7 +45,7 @@ export default function SupportSection() {
           icon={<Mail size={28} />}
           title="Bank Transfer (India)"
           description="Prefer direct transfer? Email me and I’ll send verified bank details securely."
-          link="mailto:your.email@example.com?subject=Requesting%20Bank%20Details%20for%20Support"
+          link="mailto:mayank69123@gmail.com?subject=Requesting%20Bank%20Details%20for%20Support"
         />
       </div>
     </motion.section>
