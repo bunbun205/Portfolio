@@ -11,7 +11,28 @@ type Skill = {
 const skills: Skill[] = [
   { name: 'Blender', level: 95, experience: '6', description: 'I have been dabbling in blender for both personal and professional projects. It\'s my 3D package of choice and is always a part of my 3D art workflow.' },
   { name: 'ZBrush', level: 80, experience: '4', description: ''},
-
+  { name: 'Unreal Engine', level: 60, experience: '2', description: ''},
+  { name: 'Unity', level: 75, experience: '2', description: ''},
+  { name: 'Substance Painter', level: 60, experience: '3', description: ''},
+  { name: 'Krita', level: 60, experience: '4', description: ''},
+  { name: 'Inkscape', level: 50, experience: '2', description: ''},
+  { name: 'DaVinci Resolve', level: 50, experience: '3', description: ''},
+  { name: 'Affinity Suite', level: 40, experience: '1', description: ''},
+  { name: 'FreeCAD', level: 70, experience: '1', description: ''},
+  { name: 'Figma', level: 50, experience: '1', description: ''},
+  { name: 'C++', level: 80, experience: '6', description: ''},
+  { name: 'C#', level: 50, experience: '1', description: ''},
+  { name: 'React', level: 60, experience: '1', description: ''},
+  { name: 'Flutter', level: 50, experience: '1', description: ''},
+  { name: 'AstroJS', level: 60, experience: '1', description: ''},
+  { name: '3D Modelling', level: 95, experience: '6', description: ''},
+  { name: 'Digital Sculpting', level: 80, experience: '4', description: ''},
+  { name: 'Game Design', level: 90, experience: '2', description: ''},
+  { name: 'Animation', level: 40, experience: '1', description: ''},
+  { name: 'Web Design', level: 75, experience: '2', description: ''},
+  { name: 'Game Development', level: 75, experience: '2', description: ''},
+  { name: 'Digital Art', level: 80, experience: '5', description: ''},
+  { name: 'UI/UX Design', level: 80, experience: '1', description: ''},
 ];
 
 const SkillMap = () => {
