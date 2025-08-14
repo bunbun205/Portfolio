@@ -9,16 +9,9 @@ type Skill = {
 };
 
 const skills: Skill[] = [
-  { name: 'Blender', level: 90, experience: '3.2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-  { name: 'Maya', level: 85, experience: '2.9', description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
-  { name: 'ZBrush', level: 80, experience: '2.4', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco.' },
-  { name: 'Substance Painter', level: 75, experience: '1.7', description: 'Duis aute irure dolor in reprehenderit in voluptate velit.' },
-  { name: 'Unreal Engine', level: 80, experience: '2.8', description: 'Cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.' },
-  { name: 'Unity', level: 70, experience: '2.1', description: 'Cupidatat non proident, sunt in culpa qui officia deserunt.' },
-  { name: 'C++', level: 65, experience: '3.0', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-  { name: 'Python', level: 70, experience: '2.5', description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
-  { name: 'JavaScript', level: 60, experience: '2.0', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco.' },
-  { name: 'TypeScript', level: 60, experience: '1.8', description: 'Duis aute irure dolor in reprehenderit in voluptate velit.' },
+  { name: 'Blender', level: 95, experience: '6', description: 'I have been dabbling in blender for both personal and professional projects. It\'s my 3D package of choice and is always a part of my 3D art workflow.' },
+  { name: 'ZBrush', level: 80, experience: '4', description: ''},
+
 ];
 
 const SkillMap = () => {

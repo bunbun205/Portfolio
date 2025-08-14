@@ -9,7 +9,7 @@ const Introduction = () => (
   >
     <h2 className="text-3xl font-bold mb-2">About Me</h2>
     <p className="text-lg">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget commodo justo. Vivamus non blandit erat. Integer eu mi nec nulla laoreet bibendum.
+      Hi! My name is <b>Mayank Yadav</b>, a <b>Developer</b>, <b>Artist</b>, and <b>Designer</b>. I am a generalist who combines by diverse skills to create amazing digital experiences, like this website. Checkout my projects and blog and connect with me if you would like to collaborate or hire me!
     </p>
   </motion.section>
 );
