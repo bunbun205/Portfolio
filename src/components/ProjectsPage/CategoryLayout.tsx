@@ -18,7 +18,7 @@ export default function CategoryLayout({ slug, projects }: Props) {
   const category = useMemo(() => {
     const map: Record<string, string> = {
       "3dassets": "3D Assets",
-      "characters": "Characters",
+      "characters": "Character Art",
       "environments": "Environments",
       "conceptart": "Concept Art",
       "gamedesign": "Game Design",

@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState, useMemo, type JSX } from "react";
 import { Canvas, useLoader } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import {OrbitControls, TrackballControls} from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import * as THREE from "three";
 
@@ -87,8 +87,8 @@ export default function ModelViewer({ filename }: ModelViewerProps) {
         shadows
         gl={{ alpha: true }}
       >
-        <ambientLight intensity={1} />
-        <directionalLight position={[5, 5, 5]} intensity={0.8} castShadow />
+        <ambientLight intensity={2} />
+        <directionalLight position={[5, 10, 5]} rotation={[Math.PI/2, 0, 0]} intensity={3} castShadow={true} />
 
         <Suspense fallback={null}>
           <Model
@@ -104,7 +104,7 @@ export default function ModelViewer({ filename }: ModelViewerProps) {
           />
         </Suspense>
 
-        <OrbitControls enableZoom enablePan enableRotate />
+        <TrackballControls />
       </Canvas>
 
       {/* Overlay controls */}

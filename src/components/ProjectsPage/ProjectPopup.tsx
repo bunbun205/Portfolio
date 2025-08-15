@@ -12,8 +12,7 @@ interface Props {
 
 const R2_URL = "https://pub-925169039ca2466a9fccafe6acd0d070.r2.dev";
 const WORKER_URL = "https://portfolio-backend.mayank69123-5d3.workers.dev";
-const API_KEY =
-  "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782a";
+const API_KEY = "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782a";
 
 export default function ProjectPopup({ project, onClose }: Props) {
   const [liked, setLiked] = useState(false);
