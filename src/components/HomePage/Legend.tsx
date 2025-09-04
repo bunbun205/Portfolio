@@ -1,161 +1,174 @@
-import {useRef, useEffect, useState, useMemo} from 'react';
-import type {JSX} from "react";
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { useRef, useEffect, useState } from 'react';
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { OBJLoader } from "three-stdlib";
-import {TextureLoader} from "three";
+import { GLTFLoader, DRACOLoader } from 'three-stdlib';
 
 function Platform() {
-	const platformRef = useRef<THREE.Group>(null);
-	const rotationRef = useRef(0);
-	const targetRotation = useRef(0);
-	const obj = useLoader(OBJLoader, '/platform.obj');
-    const texture = useLoader(TextureLoader, '/colorPalette.png');
+    const platformRef = useRef<THREE.Group>(null);
+    const rotationRef = useRef(0);
+    const targetRotation = useRef(0);
 
-    const material = useMemo(
-        () =>
-            new THREE.MeshStandardMaterial({
-                map: texture,
-            }),
-        [texture]
-    );
+    // 🔑 Setup GLTFLoader with DRACOLoader
+    const gltf = useLoader(GLTFLoader, '/platform.glb', (loader) => {
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('/draco/');
+        loader.setDRACOLoader(dracoLoader);
+    });
 
-	const links: Record<string, string> = {
-		ProjectsSign: '/projects',
-		AboutSign: '/about',
-		BlogSign: '/blog',
-		ContactSign: '/contact',
-	};
+    const obj = gltf.scene;
+    const { camera } = useThree();
 
-    useMemo(() => {
+    // ✅ enable castShadow on all meshes
+    useEffect(() => {
         obj.traverse((child) => {
-            if (child instanceof THREE.Mesh) {
-                child.material = material;
+            if ((child as THREE.Mesh).isMesh) {
+                (child as THREE.Mesh).castShadow = true;
+                (child as THREE.Mesh).receiveShadow = true;
             }
         });
-    }, [obj, material]);
+    }, [obj]);
 
-	const clickableMeshes = useMemo(() => {
-		const meshes: JSX.Element[] = [];
-		obj.traverse((child) => {
-			if(child.type === 'Mesh' && links[child.name]) {
-				meshes.push(
-					<mesh
-						key={child.uuid}
-						geometry={(child as THREE.Mesh).geometry}
-						material={(child as THREE.Mesh).material}
-						onClick={() => (window.location.href = links[child.name])}
-						onPointerOver={(e) => {
-							document.body.style.cursor = 'pointer';
-							e.stopPropagation();
-						}}
-						onPointerOut={(e) => (document.body.style.cursor = 'default')}
-					/>
-				);
-			}
-		});
-		return meshes;
-	}, [obj]);
+    const links: Record<string, string> = {
+        ProjectsSign: '/projects',
+        AboutSign: '/about',
+        BlogSign: '/blog',
+        ContactSign: '/contact',
+    };
 
-	// 🖱️ Scroll Rotation (Desktop)
-	useEffect(() => {
-		const handleScroll = (e: WheelEvent) => {
-			targetRotation.current -= e.deltaY * 0.001;
-		};
-		window.addEventListener('wheel', handleScroll);
-		return () => window.removeEventListener('wheel', handleScroll);
-	}, []);
+    // 🔍 Raycaster setup
+    const raycaster = useRef(new THREE.Raycaster());
+    const pointer = useRef(new THREE.Vector2());
 
-	// 📱 Touch Rotation (Mobile)
-	useEffect(() => {
-		let touchStartX: number | null = null;
+    useEffect(() => {
+        const handlePointerMove = (event: MouseEvent) => {
+            pointer.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+            pointer.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-		const handleTouchStart = (e: TouchEvent) => {
-			touchStartX = e.touches[0].clientX;
-		};
+            raycaster.current.setFromCamera(pointer.current, camera);
+            const intersects = raycaster.current.intersectObjects(obj.children, true);
 
-		const handleTouchMove = (e: TouchEvent) => {
-			if (touchStartX === null) return;
-			const touchX = e.touches[0].clientX;
-			const deltaX = touchX - touchStartX;
-			targetRotation.current += deltaX * 0.005; // Adjust for sensitivity
-			touchStartX = touchX;
-		};
+            const hit = intersects.find((i) => links[i.object.name]);
+            document.body.style.cursor = hit ? 'pointer' : 'default';
+        };
 
-		window.addEventListener('touchstart', handleTouchStart);
-		window.addEventListener('touchmove', handleTouchMove);
+        const handleClick = (event: MouseEvent) => {
+            pointer.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+            pointer.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-		return () => {
-			window.removeEventListener('touchstart', handleTouchStart);
-			window.removeEventListener('touchmove', handleTouchMove);
-		};
-	}, []);
+            raycaster.current.setFromCamera(pointer.current, camera);
+            const intersects = raycaster.current.intersectObjects(obj.children, true);
 
-	// Animation Frame
-	useFrame(() => {
-		rotationRef.current += (targetRotation.current - rotationRef.current) * 0.1;
-		if (platformRef.current) {
-			platformRef.current.rotation.y = rotationRef.current;
-		}
-	});
+            const hit = intersects.find((i) => links[i.object.name]);
+            if (hit) {
+                window.location.href = links[hit.object.name];
+            }
+        };
 
-	return (
-		<group ref={platformRef} position={[0, -1.2, 0]} scale={[0.6, 0.6, 0.6]}>
-			<group rotation={[0, Math.PI/4, 0]}>
-				<primitive object={obj}/>
-				{clickableMeshes}
-			</group>
-		</group>
-	);
+        window.addEventListener('mousemove', handlePointerMove);
+        window.addEventListener('click', handleClick);
+        return () => {
+            window.removeEventListener('mousemove', handlePointerMove);
+            window.removeEventListener('click', handleClick);
+        };
+    }, [camera, obj, links]);
+
+    // 🖱️ Scroll Rotation
+    useEffect(() => {
+        const handleScroll = (e: WheelEvent) => {
+            targetRotation.current -= e.deltaY * 0.001;
+        };
+        window.addEventListener('wheel', handleScroll);
+        return () => window.removeEventListener('wheel', handleScroll);
+    }, []);
+
+    // 📱 Touch Rotation
+    useEffect(() => {
+        let touchStartX: number | null = null;
+        const handleTouchStart = (e: TouchEvent) => {
+            touchStartX = e.touches[0].clientX;
+        };
+        const handleTouchMove = (e: TouchEvent) => {
+            if (touchStartX === null) return;
+            const touchX = e.touches[0].clientX;
+            const deltaX = touchX - touchStartX;
+            targetRotation.current += deltaX * 0.005;
+            touchStartX = touchX;
+        };
+        window.addEventListener('touchstart', handleTouchStart);
+        window.addEventListener('touchmove', handleTouchMove);
+        return () => {
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchmove', handleTouchMove);
+        };
+    }, []);
+
+    // 🎥 Animate rotation
+    useFrame(() => {
+        rotationRef.current += (targetRotation.current - rotationRef.current) * 0.1;
+        if (platformRef.current) {
+            platformRef.current.rotation.y = rotationRef.current;
+        }
+    });
+
+    return (
+        <group ref={platformRef} position={[0, -1.2, 0]} scale={[0.6, 0.6, 0.6]}>
+            <group rotation={[0, Math.PI / 4, 0]}>
+                <primitive object={obj} />
+            </group>
+        </group>
+    );
 }
 
-
 export default function Legend3D() {
-	const [cameraConfig, setCameraConfig] = useState({
-		position: new THREE.Vector3(0, 2, 10),
-		fov: 50,
-	});
+    const [cameraConfig, setCameraConfig] = useState({
+        position: new THREE.Vector3(0, 2, 10),
+        fov: 50,
+    });
 
-	useEffect(() => {
-		const updateCamera = () => {
-			if (window.innerWidth < 768) {
-				// Mobile
-				setCameraConfig({
-					position: new THREE.Vector3(0, 1.5, 8),
-					fov: 90,
-				});
-			} else {
-				// Desktop
-				setCameraConfig({
-					position: new THREE.Vector3(0, 2, 10),
-					fov: 50,
-				});
-			}
-		};
+    useEffect(() => {
+        const updateCamera = () => {
+            if (window.innerWidth < 768) {
+                setCameraConfig({
+                    position: new THREE.Vector3(0, 1.5, 8),
+                    fov: 90,
+                });
+            } else {
+                setCameraConfig({
+                    position: new THREE.Vector3(0, 2, 10),
+                    fov: 50,
+                });
+            }
+        };
+        updateCamera();
+        window.addEventListener('resize', updateCamera);
+        return () => window.removeEventListener('resize', updateCamera);
+    }, []);
 
-		updateCamera();
-		window.addEventListener('resize', updateCamera);
-		return () => window.removeEventListener('resize', updateCamera);
-	}, []);
-
-	return (
-		<Canvas
-			camera={{
-				position: cameraConfig.position,
-				fov: cameraConfig.fov,
-			}}
-			style={{
-				position: 'fixed',
-				top: 0,
-				left: 0,
-				zIndex: 0,
-				width: '100vw',
-				height: '100vh',
-			}}
-		>
-			<ambientLight intensity={0.4} />
-			<directionalLight position={[5, 10, 5]} intensity={1} castShadow />
-			<Platform />
-		</Canvas>
-	);
+    return (
+        <Canvas
+            shadows
+            camera={{
+                position: cameraConfig.position,
+                fov: cameraConfig.fov,
+            }}
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                zIndex: 0,
+                width: '100vw',
+                height: '100vh',
+            }}
+        >
+            <ambientLight intensity={1.5} />
+            <directionalLight
+                position={[5, 10, 5]}
+                intensity={2}
+                castShadow
+                shadow-mapSize-width={4096}
+                shadow-mapSize-height={4096}
+            />
+            <Platform />
+        </Canvas>
+    );
 }
