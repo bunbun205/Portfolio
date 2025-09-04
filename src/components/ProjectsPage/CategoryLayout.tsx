@@ -22,7 +22,7 @@ export default function CategoryLayout({ slug, projects }: Props) {
       "environments": "Environments",
       "conceptart": "Concept Art",
       "gamedesign": "Game Design",
-      "gamedevelopment": "Game Development",
+      "development": "Development",
     };
     return map[slug] || "Unknown Category";
   }, [slug]);

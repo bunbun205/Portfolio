@@ -9,10 +9,10 @@ const NavBar = () => {
 			<div className="relative container mx-auto flex justify-between items-center px-4 py-6">
 				<div className="text-3xl md:text-4xl lg:text-4xl font-bold flex items-center space-x-2">
 					<img
-						src="/mock-thumb.png"
+						src="/icon.jpg"
 						alt="Logo"
-						width={40}
-						height={40}
+						width={60}
+						height={60}
 						className="h-[1em] w-auto"
 					/>
 					<a href="/">Mayank Yadav</a>

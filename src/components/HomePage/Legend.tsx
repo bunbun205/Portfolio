@@ -3,12 +3,22 @@ import type {JSX} from "react";
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { OBJLoader } from "three-stdlib";
+import {TextureLoader} from "three";
 
 function Platform() {
 	const platformRef = useRef<THREE.Group>(null);
 	const rotationRef = useRef(0);
 	const targetRotation = useRef(0);
 	const obj = useLoader(OBJLoader, '/platform.obj');
+    const texture = useLoader(TextureLoader, '/colorPalette.png');
+
+    const material = useMemo(
+        () =>
+            new THREE.MeshStandardMaterial({
+                map: texture,
+            }),
+        [texture]
+    );
 
 	const links: Record<string, string> = {
 		ProjectsSign: '/projects',
@@ -16,6 +26,14 @@ function Platform() {
 		BlogSign: '/blog',
 		ContactSign: '/contact',
 	};
+
+    useMemo(() => {
+        obj.traverse((child) => {
+            if (child instanceof THREE.Mesh) {
+                child.material = material;
+            }
+        });
+    }, [obj, material]);
 
 	const clickableMeshes = useMemo(() => {
 		const meshes: JSX.Element[] = [];
@@ -82,7 +100,7 @@ function Platform() {
 	});
 
 	return (
-		<group ref={platformRef} position={[0, -1.5, 0]} scale={[0.6, 0.6, 0.6]}>
+		<group ref={platformRef} position={[0, -1.2, 0]} scale={[0.6, 0.6, 0.6]}>
 			<group rotation={[0, Math.PI/4, 0]}>
 				<primitive object={obj}/>
 				{clickableMeshes}
@@ -136,7 +154,7 @@ export default function Legend3D() {
 			}}
 		>
 			<ambientLight intensity={0.4} />
-			<directionalLight position={[5, 10, 5]} intensity={1} />
+			<directionalLight position={[5, 10, 5]} intensity={1} castShadow />
 			<Platform />
 		</Canvas>
 	);
