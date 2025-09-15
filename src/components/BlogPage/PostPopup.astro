@@ -21,7 +21,9 @@ try {
     throw new Error(`Failed to fetch MDX: ${response.statusText}`);
 
   const mdxSource = await response.text();
-  const compiled = await compile(mdxSource, { outputFormat: "function-body" });
+  const compiled = await compile(mdxSource, {
+      outputFormat: "function-body"
+  });
   const module = await run(compiled, {
     ...runtime,
     baseUrl: import.meta.url,
