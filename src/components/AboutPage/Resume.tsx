@@ -14,7 +14,7 @@ const ResumeCard = () => {
       >
         <h2 className="text-2xl font-bold mb-4">My Resume</h2>
         <div
-          className="relative w-full max-w-4xl mx-auto aspect-[1101/584] bg-cover bg-center border cursor-pointer shadow-lg hover:scale-105 transition"
+          className="relative w-full max-w-4xl mx-auto aspect-1101/584 bg-cover bg-center border cursor-pointer shadow-lg hover:scale-105 transition"
           style={{ backgroundImage: `url('/resume_thumbnail.png')` }}
           onClick={() => setOpen(true)}
         >
@@ -25,7 +25,7 @@ const ResumeCard = () => {
       </motion.section>
 
       {open && (
-        <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-[1000]">
+        <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-1000">
           <div className="relative w-full max-w-5xl h-[90vh]">
             <button
               onClick={() => setOpen(false)}
