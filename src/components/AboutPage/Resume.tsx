@@ -34,7 +34,7 @@ const ResumeCard = () => {
               &times;
             </button>
             <iframe
-              src="/resume_updated.pdf"
+              src="/Mayank_Yadav.pdf"
               className="w-full h-full border-none rounded"
             ></iframe>
           </div>
