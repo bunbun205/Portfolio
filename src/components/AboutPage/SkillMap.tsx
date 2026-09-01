@@ -11,7 +11,7 @@ type Skill = {
 const skills: Skill[] = [
   { name: 'Blender', level: 95, experience: '6', description: 'I have been dabbling in blender for both personal and professional projects. It\'s my 3D package of choice and is always a part of my 3D art workflow.' },
   { name: 'ZBrush', level: 80, experience: '4', description: 'ZBrush is my go to 3D package for all my digital sculpting. I mainly use it for character modelling but I have dabbled a little in hardsurface sculpting too.'},
-  { name: 'Unreal Engine', level: 60, experience: '2', description: 'Unreal Engine is my go to engine for visualizations and environment design. I am currently working on a 3D open world environment in Unreal.'},
+  { name: 'Unreal Engine', level: 80, experience: '2', description: 'I have developed multiple game samples in Unreal Engine. All of them are attached on my resume for playtesting.'},
   { name: 'Unity', level: 75, experience: '2', description: 'I have used Unity professionally for teaching game dev and am also developing my 2D platformer project in Unity currently.'},
   { name: 'Substance Painter', level: 60, experience: '3', description: 'I have used Substance Painter for my texturing needs. Creating handpainted realistic skin textures for my characters is one of my prime use cases.'},
   { name: 'Krita', level: 60, experience: '4', description: 'Most of my portrait and digital art is done in Krita. I also use it for concepts.'},
@@ -23,6 +23,7 @@ const skills: Skill[] = [
   { name: 'C++', level: 80, experience: '6', description: 'C++ is my language of choice for most of my dev projects.'},
   { name: 'C#', level: 50, experience: '1', description: 'I have been getting into C# for Unity game dev and I usually rely on it being C-like.'},
   { name: 'React', level: 60, experience: '1', description: 'React is my go to framework for my web development projects.'},
+  { name: 'Python', level: 60, experience: '1', description: 'Python is the language I use for my AI/ML projects.' },
   { name: 'Flutter', level: 50, experience: '1', description: 'I have used Flutter for some professional app dev projects. I also dabbled into the Flame Engine, which is a Game Engine based on Flutter.'},
   { name: 'AstroJS', level: 60, experience: '1', description: 'I recently decided to try out new frontend frameworks and have made this portfolio website using AstroJS with React integration.'},
   { name: '3D Modelling', level: 95, experience: '6', description: ''},
