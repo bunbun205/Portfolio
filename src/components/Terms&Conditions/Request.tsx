@@ -25,7 +25,7 @@ export default function HumanitarianAppeal() {
 				</a>.
 			</p>
 			<p className="mb-4 text-sm text-red-800 dark:text-red-200">
-				These links serve no political purpose within this project—only a compassionate one. The devastation faced by civilians, especially children, deserves awareness and empathy. Even if you must remove them, please consider visiting the resources below and staying informed.
+				These links serve no political purpose within this project, only a compassionate one. The devastation faced by civilians, especially children, deserves awareness and empathy. Even if you must remove them, please consider visiting the resources below and staying informed.
 			</p>
 			<div className="text-sm">
 				<h3 className="font-semibold mb-2">Learn more about the issue:</h3>
