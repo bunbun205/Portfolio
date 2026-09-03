@@ -1,16 +1,11 @@
 import type { Comment } from './interfaces';
 
 const WORKER_URL = "https://portfolio-backend.mayank69123-5d3.workers.dev";
-const API_KEY = "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782a";
 
 export async function fetchComments(): Promise<Comment[]> {
 
   try {
-    const res = await fetch(`${WORKER_URL}/rest/comments`, {
-      headers: {
-        'Authorization': `Bearer ${API_KEY}`,
-      },
-    });
+    const res = await fetch(`${WORKER_URL}/comments`);
 
     if (!res.ok) {
       console.error('[fetchComments] HTTP error:', res.status, res.statusText);
