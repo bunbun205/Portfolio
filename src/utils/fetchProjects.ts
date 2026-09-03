@@ -2,7 +2,6 @@
 import type { Project, ProjectAssets } from './interfaces';
 
 const API_BASE = "https://portfolio-backend.mayank69123-5d3.workers.dev";
-const API_KEY = "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782a";
 
 /**
  * Fetch all projects using the REST API endpoint.
@@ -10,11 +9,7 @@ const API_KEY = "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782
  */
 export async function fetchProjects(): Promise<Project[]> {
   try {
-    const res = await fetch(`${API_BASE}/rest/projects`, {
-      headers: {
-        'Authorization': `Bearer ${API_KEY}`,
-      },
-    });
+    const res = await fetch(`${API_BASE}/projects`);
 
     if (!res.ok) {
       console.error('Failed to fetch projects:', res.statusText);

@@ -2,18 +2,12 @@
 import type { BlogPost } from './interfaces';
 
 const API_BASE = "https://portfolio-backend.mayank69123-5d3.workers.dev";
-const API_KEY = "5fb10b5369a1a45689f95d6aa1fa97df8e5b59925101f93e6e4b790ec0c6782a";
-
 /**
  * Fetches blog posts from the Cloudflare Worker REST API
  */
 export async function fetchPosts(): Promise<BlogPost[]> {
   try {
-    const res = await fetch(`${API_BASE}/rest/posts`, {
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    });
+    const res = await fetch(`${API_BASE}/posts`);
 
     if (!res.ok) {
       console.error('Failed to fetch blog posts:', res.statusText);
